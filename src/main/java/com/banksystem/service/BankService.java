@@ -5,6 +5,7 @@ import com.banksystem.repository.BankAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,6 +39,7 @@ public class BankService {
         return bankAccountEntity.getBalance();
     }
 
+    @Transactional
     public void deposit(Long accountNumberDeposit, BigDecimal depositAmount) {
         BankAccountEntity account = findAccount(accountNumberDeposit);
         transactionService.deposit(account,depositAmount);
@@ -46,6 +48,7 @@ public class BankService {
         bankAccountRepository.save(account);
     }
 
+    @Transactional
     public void withdraw(Long accountNumberWithdraw, BigDecimal withdrawAmount) {
         BankAccountEntity account = findAccount(accountNumberWithdraw);
         transactionService.withdraw(account,withdrawAmount);
@@ -55,6 +58,7 @@ public class BankService {
         bankAccountRepository.save(account);
     }
 
+    @Transactional
     public void transfer(Long sourceAccountNumber, Long destinationAccountNumber, BigDecimal transferAmount) {
         BankAccountEntity sourceAccount = findAccount(sourceAccountNumber);
         BankAccountEntity destinationAccount = findAccount(destinationAccountNumber);

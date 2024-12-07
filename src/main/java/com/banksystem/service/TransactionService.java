@@ -7,6 +7,7 @@ import com.banksystem.entity.TransactionType;
 import com.banksystem.logger.observer.TransactionObserver;
 import com.banksystem.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TransactionService {
 
     private final List<TransactionObserver> transactionObservers;
@@ -36,6 +38,8 @@ public class TransactionService {
                         .build();
                 transactionRepository.save(transaction);
                 notifyObservers(transaction);
+            } catch (Exception e) {
+                log.error("Error during deposit transaction: {}", e.getMessage(), e);
             } finally {
                 lock.unlock();
             }
@@ -55,6 +59,8 @@ public class TransactionService {
                         .build();
                 transactionRepository.save(transaction);
                 notifyObservers(transaction);
+            } catch (Exception e) {
+                log.error("Error during deposit transaction: {}", e.getMessage(), e);
             } finally {
                 lock.unlock();
             }
@@ -75,6 +81,8 @@ public class TransactionService {
                         .build();
                 transactionRepository.save(transaction);
                 notifyObservers(transaction);
+            } catch (Exception e) {
+                log.error("Error during deposit transaction: {}", e.getMessage(), e);
             } finally {
                 lock.unlock();
             }
